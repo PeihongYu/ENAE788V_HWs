@@ -9,11 +9,20 @@
 % this will display the search tree and path
 % assuming that the files have been generated
 
+% Algorithms: Dijkstra, A_star
+ALGORITHM = 'A_star';
 
-search_tree_raw = csvread('search_tree.txt');
-path_raw = csvread('output_path.txt');
-nodes_raw = csvread('nodes.txt');
-edges_raw = csvread('edges.txt');
+start_ids = [9, 88, 30, 38, 38];
+end_ids = [5, 9, 95, 502, 5002];
+
+id = 1;
+search_tree_raw = csvread(['search_tree_', int2str(id), '_', ALGORITHM, '.txt']);
+path_raw = csvread(['output_path_', int2str(id), '_', ALGORITHM, '.txt']);
+nodes_raw = csvread(['nodes_', int2str(id), '.txt']);
+edges_raw = csvread(['edges_with_costs_', int2str(id)', '.txt']);
+
+startNodeID = start_ids(id);
+goalNodeID = end_ids(id);
 
 % a bit of data processing for faster plotting
 search_tree = nan(3*size(search_tree_raw, 1), 2);
@@ -34,14 +43,22 @@ edges(2:3:end-1, 1) = nodes(edges_raw(:, 2),1);
 edges(1:3:end-2, 2) = nodes(edges_raw(:, 1),2);
 edges(2:3:end-1, 2) = nodes(edges_raw(:, 2),2);
 
-figure(1)
+figure(2)
 plot(nodes(:,1), nodes(:,2), 'ok')
 hold on
+% for i = 1:length(nodes)
+%     text(nodes(i, 1)+0.5, nodes(i, 2), int2str(i-1), 'FontSize', 20)
+%     hold on;
+% end
+plot(nodes(startNodeID,1) , nodes(startNodeID,2), 'or', 'markersize', 10, 'linewidth', 2)
+hold on
+plot(nodes(goalNodeID,1) , nodes(goalNodeID,2), 'xr', 'markersize', 10, 'linewidth', 2)
+hold on
 plot(edges(:,1), edges(:,2), 'k')
+hold on
 plot(search_tree(:, 1), search_tree(:, 2), 'm', 'LineWidth', 2);
 plot(path_raw(:,2), path_raw(:,3), 'g:', 'LineWidth', 3);
+axis equal
 hold off
 
-
-
-
+% saveas(gcf, [int2str(id), '_', ALGORITHM, '.png'])

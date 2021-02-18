@@ -19,12 +19,15 @@
 % lines 2 to m+1 contain nodes 1 to m, respectively
 % each edges is given by ID_start, ID_end, edgeLength 
 
+id = 1;
+start_ids = [9, 88, 30, 38, 38];
+end_ids = [5, 9, 95, 502, 5002];
 
-nodeFile = 'nodes.txt';
-edgeFile = 'edges.txt';
+nodeFile = ['nodes_', int2str(id), '.txt'];
+edgeFile = ['edges_with_costs_', int2str(id)', '.txt'];
 
-startNodeID = 7;
-goalNodeID = 6;
+startNodeID = start_ids(id);
+goalNodeID = end_ids(id);
 
 nodes = csvread(nodeFile);
 edges = csvread(edgeFile);
@@ -51,6 +54,7 @@ hold on
 plot(nodesForPlotting(:,1),nodesForPlotting(:,2), 'ok')
 plot(nodes(startNodeID,2) , nodes(startNodeID,3), 'or', 'markersize', 10, 'linewidth', 2)
 plot(nodes(goalNodeID,2) , nodes(goalNodeID,3), 'xr', 'markersize', 10, 'linewidth', 2)
+axis equal
 hold off
 
 
